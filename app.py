@@ -131,30 +131,74 @@ class PageTwo(tk.Frame):
         to_home_button.pack()
 
 
-class PageThree(tk.Frame, QtWidgets.QMainWindow):
+# class PageThree(tk.Frame, QtWidgets.QMainWindow):
+#
+#     def __init__(self, parent, controller):
+#
+#         super().__init__(parent)
+#         self._main = QtWidgets.QWidget()
+#         self.setCentralWidget(self._main)
+#         label = tk.Label(self, text="This is Page Three!!", font=LARGE_FONT)
+#         label.pack(padx=10, pady=10)
+#
+#         to_home_button = ttk.Button(self, text="Back To Home",
+#                             command=lambda: controller.show_frame(StartPage))
+#         to_home_button.pack()
+#
+#         figure = Figure(figsize=(5,5), dpi=10)
+#         graph = figure.add_subplot(111)
+#         graph.plot([1,2,3,4,5,6,7,8], [5,6,1,3,8,9,3,5])
+#
+#         canvas = FigureCanvasTkAgg(figure, self)
+#         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+#
+#         toolbar = NavigationToolbar(canvas, self)
+#         toolbar.update()
+#         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+def print_on_terminal(message):
+    print(message)
+
+
+
+
+def popupmsg(controller, NextPage, title, msg):
+    popup = tk.Tk()
+
+    def ok_btn_func(func, **kwargs):
+        popup.destroy()
+        controller.show_frame(NextPage)
+        func(**kwargs)
+
+    popup.wm_title(title)
+    label = ttk.Label(popup, text=msg, font=LARGE_FONT)
+    label.pack()
+    ok_btn = ttk.Button(popup, text='OK', command = lambda: ok_btn_func(print_on_terminal, message='Ok Button Working!'))
+    ok_btn.pack()
+    cancel_btn = ttk.Button(popup, text='Cancel', command = popup.destroy)
+    cancel_btn.pack()
+    popup.mainloop()
+
+
+
+
+class PageThree(tk.Frame):
 
     def __init__(self, parent, controller):
 
         super().__init__(parent)
-        self._main = QtWidgets.QWidget()
-        self.setCentralWidget(self._main)
         label = tk.Label(self, text="This is Page Three!!", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
+
+        run_btn = ttk.Button(self, text="Run",
+                            command= lambda: popupmsg(controller, StartPage, 'Causetion!', 'Sure to continue?'))
+        run_btn.pack()
 
         to_home_button = ttk.Button(self, text="Back To Home",
                             command=lambda: controller.show_frame(StartPage))
         to_home_button.pack()
 
-        figure = Figure(figsize=(5,5), dpi=10)
-        graph = figure.add_subplot(111)
-        graph.plot([1,2,3,4,5,6,7,8], [5,6,1,3,8,9,3,5])
 
-        canvas = FigureCanvasTkAgg(figure, self)
-        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-        toolbar = NavigationToolbar(canvas, self)
-        toolbar.update()
-        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
 ################################################################################
