@@ -1,42 +1,43 @@
-################################################################################
-#                      Packgae Import and Font Configure                       #
-################################################################################
+"""
+Tkinter tutorial Python
+
+Author   : sentdex
+Video URL: http://www.youtube.com/playlist?list=PLQVvvaa0QuDclKx-QpC9wntnURXVJqLyk
+
+This is Tkinter tutorial.
+These codes are based on the video above.
+"""
+
 # Tkinter
 import tkinter as tk
-from tkinter import ttk # something like css in tkinter
+from tkinter import ttk # ttk: something like css in tkinter
+
 
 # matplotlib
-# If you don't have, pip install matplotlib
 import matplotlib
 matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-# In the Part 6 Video (https://www.youtube.com/watch?v=A0gaXfM1UN0&list=PLQVvvaa0QuDclKx-QpC9wntnURXVJqLyk&index=2)
-# But the code below is no longer supported.
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+# In the Part 6 Video (https://www.youtube.com/watch?v=A0gaXfM1UN0&list=PLQVvvaa0QuDclKx-QpC9wntnURXVJqLyk&index=2),
+#
 # from matplotlib.backends.backend_tkagg import NavigationToolbar2QT
-# To run the code below, you need "pip install PyQt5"
+#
+# To run the code above, you need "pip install PyQt5"
 # From Stack Overflow: https://stackoverflow.com/questions/50330320/what-to-use-instead-of-navigationtoolbar2tkagg
-#                      Matplotlib now wants you to use
-#                      NavigationToolbar2Tk
-#                      instead of NavigationToolbar2TkAgg.
-# from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-# from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqtfrom matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
-from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
-if is_pyqt5():
-    from matplotlib.backends.backend_qt5agg import (
-        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
-else:
-    from matplotlib.backends.backend_qt4agg import (
-        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+#      Matplotlib now wants you to use
+#      NavigationToolbar2Tk
+#      instead of NavigationToolbar2TkAgg.
+
 from matplotlib.figure import Figure
 
-# Font Configure
+
+
+
+# Font Configuration
 LARGE_FONT = ("Verdana", 12)
 
 
 
-################################################################################
-#                             Create Page Classes                              #
-################################################################################
 class SeaofBTCapp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -45,10 +46,8 @@ class SeaofBTCapp(tk.Tk):
         # tk.Tk.__init__(self, *args, **kwargs)
         super().__init__()
 
-        # # App Icon (Only for Windows)
-        # super().iconbitmap(default='worktime.ico')
-        super().wm_title('勤怠取得ツール')
-        super().geometry("800x500")
+        super().wm_title('Tkinter Tutorial') # Not in the Tutorial as of Part 7
+        super().geometry("800x500") # Not in the Tutorial as of Part 7
 
         # Container (Boss of Each Frame)
         container = tk.Frame(self)
@@ -131,57 +130,6 @@ class PageTwo(tk.Frame):
         to_home_button.pack()
 
 
-# class PageThree(tk.Frame, QtWidgets.QMainWindow):
-#
-#     def __init__(self, parent, controller):
-#
-#         super().__init__(parent)
-#         self._main = QtWidgets.QWidget()
-#         self.setCentralWidget(self._main)
-#         label = tk.Label(self, text="This is Page Three!!", font=LARGE_FONT)
-#         label.pack(padx=10, pady=10)
-#
-#         to_home_button = ttk.Button(self, text="Back To Home",
-#                             command=lambda: controller.show_frame(StartPage))
-#         to_home_button.pack()
-#
-#         figure = Figure(figsize=(5,5), dpi=10)
-#         graph = figure.add_subplot(111)
-#         graph.plot([1,2,3,4,5,6,7,8], [5,6,1,3,8,9,3,5])
-#
-#         canvas = FigureCanvasTkAgg(figure, self)
-#         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-#
-#         toolbar = NavigationToolbar(canvas, self)
-#         toolbar.update()
-#         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-def print_on_terminal(message):
-    print(message)
-
-
-
-
-def popupmsg(controller, NextPage, title, msg):
-    popup = tk.Tk()
-
-    def ok_btn_func(func, **kwargs):
-        popup.destroy()
-        controller.show_frame(NextPage)
-        func(**kwargs)
-
-    popup.wm_title(title)
-    label = ttk.Label(popup, text=msg, font=LARGE_FONT)
-    label.pack()
-    ok_btn = ttk.Button(popup, text='OK', command = lambda: ok_btn_func(print_on_terminal, message='Ok Button Working!'))
-    ok_btn.pack()
-    cancel_btn = ttk.Button(popup, text='Cancel', command = popup.destroy)
-    cancel_btn.pack()
-    popup.mainloop()
-
-
-
-
 class PageThree(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -190,20 +138,20 @@ class PageThree(tk.Frame):
         label = tk.Label(self, text="This is Page Three!!", font=LARGE_FONT)
         label.pack(padx=10, pady=10)
 
-        run_btn = ttk.Button(self, text="Run",
-                            command= lambda: popupmsg(controller, StartPage, 'Causetion!', 'Sure to continue?'))
-        run_btn.pack()
-
         to_home_button = ttk.Button(self, text="Back To Home",
                             command=lambda: controller.show_frame(StartPage))
         to_home_button.pack()
 
+        figure = Figure(figsize=(5,5), dpi=10)
+        graph = figure.add_subplot(111)
+        graph.plot([1,2,3,4,5,6,7,8], [5,6,1,3,8,9,3,5])
+
+        canvas = FigureCanvasTkAgg(figure, self)
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
 
-################################################################################
-#                                 Main Process                                 #
-################################################################################
+
 if __name__ == "__main__":
     app = SeaofBTCapp()
     app.mainloop()
